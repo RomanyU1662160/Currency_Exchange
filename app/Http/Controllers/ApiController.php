@@ -10,16 +10,17 @@ class ApiController extends Controller
 
 
 
-    public  function getSelectedCurrency($value)
+    public  function getTargetCurrency($baseCurrencyCollection, $target)
     {
-        $collection = $this->getRates();
-        return  $baseCurrency = $collection->where('targetCurrency', $value)->first();
+        $targetCurrency = $baseCurrencyCollection->where('targetCurrency', $target)->first();
+
+        return $targetCurrency;
     }
 
 
     public function reverseCalculate($base, $target, $amount)
     {
-        $collection = $this->getRates();
+        $collection = $this->getRates($base);
         // dd($collection);
         $baseCurrency = $collection->where('targetCurrency', $base)->first();
         $targetCurrency = $collection->where('targetCurrency', $target)->first();
@@ -29,10 +30,10 @@ class ApiController extends Controller
     }
 
 
-    private function getRates()
+    public  function getRates($base = "gbp")
     {
         //$response = Http::get('https://gbp.fxexchangerate.com/rss.xml');
-        $response = Http::get('http://www.floatrates.com/daily/gbp.xml');
+        $response = Http::get("http://www.floatrates.com/daily/$base.xml");
         //dd($response->body());
 
 
@@ -47,9 +48,7 @@ class ApiController extends Controller
         //dd($array['item']);
 
 
-        return   $collection = collect($array['item']);
-
-        //dd($collection);
-
+        return $collection = collect($array['item']);
+        // return view('test.index', compact('collection'));
     }
 }

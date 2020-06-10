@@ -16,15 +16,18 @@ class CurrencyController extends  Controller
     {
         $api = new ApiController();
         $data = $request->except('_token');
-        $base = $api->getSelectedCurrency($data['from']);
-        $target = $api->getSelectedCurrency($data['to']);
-        $result = $this->calculate($base, $data['amount']);
-        return view('form/index', compact(['base', 'target', 'result']));
+        $baseCollection = $api->getRates($data['from']);
+
+        $target = $api->getTargetCurrency($baseCollection, $data['to']);
+
+        $result = $this->calculate($target, $data['amount']);
+        return view('form/index', compact(['target', 'result']));
     }
 
-    private function calculate($base, $amount)
+    private function calculate($target, $amount)
     {
-        $rate = $base['exchangeRate'];
+
+        $rate = $target['exchangeRate'];
         $value = $amount * $rate;
         return $value;
     }

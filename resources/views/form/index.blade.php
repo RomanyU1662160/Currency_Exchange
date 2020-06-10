@@ -4,6 +4,8 @@
 @if(isset($result))
 Result = {{$result}}
 @endif
+
+<example-component></example-component>
 <form action="{{route('postForm')}}" method="post">
     @csrf
     <div class="form-group">

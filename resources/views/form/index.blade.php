@@ -5,8 +5,7 @@
 Result = {{$result}}
 @endif
 
-<example-component></example-component>
-<form action="{{route('postForm')}}" method="post">
+<form action="{{route('getForm')}}" method="post">
     @csrf
     <div class="form-group">
         <label for="amount"> Amount </label>

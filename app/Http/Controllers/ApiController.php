@@ -18,21 +18,12 @@ class ApiController extends Controller
     }
 
 
-    public function reverseCalculate($base, $target, $amount)
-    {
-        $collection = $this->getRates($base);
-        // dd($collection);
-        $baseCurrency = $collection->where('targetCurrency', $base)->first();
-        $targetCurrency = $collection->where('targetCurrency', $target)->first();
-        $rate = $baseCurrency['inverseRate'];
-        $value = $amount * $rate;
-        return view('form.index', compact(['baseCurrency', 'targetCurrency', 'rate', 'value']));
-    }
 
 
-    public  function getRates($base = "gbp")
+
+    public  function getRates($base)
     {
-        //$response = Http::get('https://gbp.fxexchangerate.com/rss.xml');
+        // $response = Http::get('https://gbp.fxexchangerate.com/rss.xml');
         $response = Http::get("http://www.floatrates.com/daily/$base.xml");
         //dd($response->body());
 
@@ -48,7 +39,9 @@ class ApiController extends Controller
         //dd($array['item']);
 
 
-        return $collection = collect($array['item']);
+        return  $collection = collect($array['item']);
+
+
         // return view('test.index', compact('collection'));
     }
 }

@@ -16,12 +16,14 @@ class CurrencyController extends  Controller
     {
         $api = new ApiController();
         $data = $request->except('_token');
-        $baseCollection = $api->getRates($data['from']);
 
-        $target = $api->getTargetCurrency($baseCollection, $data['to']);
+        $baseCollection = $api->getRates('GBP');
 
-        $result = $this->calculate($target, $data['amount']);
-        return view('form/index', compact(['target', 'result']));
+        $target = $api->getTargetCurrency($baseCollection, 'USD');
+
+        $result = $this->calculate($target, 10);
+        return $result;
+        //return view('form.index', compact(['target', 'result']));
     }
 
     private function calculate($target, $amount)
@@ -30,5 +32,16 @@ class CurrencyController extends  Controller
         $rate = $target['exchangeRate'];
         $value = $amount * $rate;
         return $value;
+    }
+
+    public function reverseCalculate($base, $target, $amount)
+    {
+        $collection = $this->getRates($base);
+        // dd($collection);
+        $baseCurrency = $collection->where('targetCurrency', $base)->first();
+        $targetCurrency = $collection->where('targetCurrency', $target)->first();
+        $rate = $baseCurrency['inverseRate'];
+        $value = $amount * $rate;
+        return view('form.index', compact(['baseCurrency', 'targetCurrency', 'rate', 'value']));
     }
 }

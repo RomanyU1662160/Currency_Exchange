@@ -16,7 +16,7 @@
                     id="amount"
                     value="10"
                     v-model="amount"
-                    @focus="calculate"
+                    @keyup="calculate"
                 />
                 {{ amount }}
             </div>
@@ -27,7 +27,7 @@
                     name="base"
                     id="base"
                     v-model="base"
-                    @change="Calculate"
+                    @change="calculate"
                 >
                     <option value=""> select target currency</option>
                     <option value="GBP">GBP</option>
@@ -76,32 +76,27 @@ export default {
     },
     methods: {
         callApi() {
-            try {
-                axios
-                    .get(`rates/${this.base}`)
-                    .then(res => (this.rates = res.data))
-                    .then(console.log("api called"));
-            } catch (error) {
-                console.log(erorr);
-            }
+            axios
+                .get(`rates/${this.base}`)
+                .then(res => (this.rates = res.data))
+                .then(console.log(this.rates[0].baseCurrency))
+                .catch(error => console.log(error));
         },
         getRate() {
             let targetCurrency = this.rates.filter(rate => {
-                return rate.targetCurrency == this.target;
+                return this.target == rate.targetCurrency;
             });
             console.log("GetRateCalled");
-            this.rate = targetCurrency[0].exchangeRate;
+            return (this.rate = targetCurrency[0].exchangeRate);
         },
-        calculate() {
-            this.callApi();
-            this.getRate();
-            console.log("calcluate called");
-            return (this.result = parseInt(this.amount) * this.rate);
+        async calculate() {
+            await this.callApi();
+            await this.getRate();
+            this.result = (parseInt(this.amount) * this.rate).toFixed(2);
         }
     },
     mounted() {
         console.log("Component mounted.");
-        console.log("amount:>>", typeof this.base);
     }
 };
 </script>

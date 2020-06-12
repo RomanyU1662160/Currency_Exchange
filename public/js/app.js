@@ -2025,14 +2025,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      base: "",
+      base: "GBP",
       target: "",
       amount: null,
       rates: [],
       rate: "",
+      loading: false,
       result: ""
     };
   },
@@ -2040,11 +2045,33 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     callApi: function callApi() {
       var _this = this;
 
-      axios.get("rates/".concat(this.base)).then(function (res) {
-        return _this.rates = res.data;
-      }).then(console.log(this.rates[0].baseCurrency))["catch"](function (error) {
-        return console.log(error);
-      });
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var url, res, data;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                url = "rates/".concat(_this.base.toLowerCase());
+                _context.next = 3;
+                return fetch(url);
+
+              case 3:
+                res = _context.sent;
+                _context.next = 6;
+                return res.json();
+
+              case 6:
+                data = _context.sent;
+                _this.rates = data;
+                console.log(_this.rates);
+
+              case 9:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     },
     getRate: function getRate() {
       var _this2 = this;
@@ -2055,34 +2082,59 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       console.log("GetRateCalled");
       return this.rate = targetCurrency[0].exchangeRate;
     },
-    calculate: function calculate() {
+    recallApi: function recallApi() {
       var _this3 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
-                _context.next = 2;
+                _this3.loading = true;
+                _context2.next = 3;
                 return _this3.callApi();
 
-              case 2:
-                _context.next = 4;
+              case 3:
+                _context2.next = 5;
                 return _this3.getRate();
 
-              case 4:
+              case 5:
+                _this3.loading = false;
                 _this3.result = (parseInt(_this3.amount) * _this3.rate).toFixed(2);
 
-              case 5:
+              case 7:
               case "end":
-                return _context.stop();
+                return _context2.stop();
             }
           }
-        }, _callee);
+        }, _callee2);
+      }))();
+    },
+    calculate: function calculate() {
+      var _this4 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return _this4.getRate();
+
+              case 2:
+                _this4.result = (parseInt(_this4.amount) * _this4.rate).toFixed(2);
+
+              case 3:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
       }))();
     }
   },
   mounted: function mounted() {
+    this.callApi();
     console.log("Component mounted.");
   }
 });
@@ -38428,6 +38480,17 @@ var render = function() {
     _vm._v(" "),
     _c("p", [_vm._v("result= " + _vm._s(_vm.result))]),
     _vm._v(" "),
+    _vm.loading
+      ? _c(
+          "div",
+          {
+            staticClass: "spinner-border text-success",
+            attrs: { role: "status" }
+          },
+          [_c("span", { staticClass: "sr-only" }, [_vm._v("Loading...")])]
+        )
+      : _vm._e(),
+    _vm._v(" "),
     _c(
       "form",
       {
@@ -38463,12 +38526,15 @@ var render = function() {
             domProps: { value: _vm.amount },
             on: {
               keyup: _vm.calculate,
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.amount = $event.target.value
-              }
+              input: [
+                function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.amount = $event.target.value
+                },
+                _vm.calculate
+              ]
             }
           }),
           _vm._v("\n            " + _vm._s(_vm.amount) + "\n        ")
@@ -38505,7 +38571,7 @@ var render = function() {
                       ? $$selectedVal
                       : $$selectedVal[0]
                   },
-                  _vm.calculate
+                  _vm.recallApi
                 ]
               }
             },
@@ -38590,7 +38656,7 @@ var staticRenderFns = [
       _c(
         "button",
         { staticClass: "btn btn-info float-right", attrs: { type: "submit" } },
-        [_vm._v("\n                Calculate\n            ")]
+        [_vm._v("\n                Reverse\n            ")]
       )
     ])
   }

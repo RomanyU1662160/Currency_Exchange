@@ -5,6 +5,9 @@
         <p>target= {{ target }}</p>
         <p>result= {{ result }}</p>
 
+        <div v-if="loading" class="spinner-border text-success" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
         <form method="get" action="" @submit.prevent="getRates">
             <div class="form-group">
                 <label for="amount"> Amount </label>
@@ -17,6 +20,7 @@
                     value="10"
                     v-model="amount"
                     @keyup="calculate"
+                    @input="calculate"
                 />
                 {{ amount }}
             </div>
@@ -27,7 +31,7 @@
                     name="base"
                     id="base"
                     v-model="base"
-                    @change="calculate"
+                    @change="recallApi"
                 >
                     <option value=""> select target currency</option>
                     <option value="GBP">GBP</option>
@@ -56,7 +60,7 @@
             </div>
             <div class="alert">
                 <button class="btn btn-info float-right" type="submit">
-                    Calculate
+                    Reverse
                 </button>
             </div>
         </form>
@@ -66,21 +70,22 @@
 export default {
     data() {
         return {
-            base: "",
+            base: "GBP",
             target: "",
             amount: null,
             rates: [],
             rate: "",
+            loading: false,
             result: ""
         };
     },
     methods: {
-        callApi() {
-            axios
-                .get(`rates/${this.base}`)
-                .then(res => (this.rates = res.data))
-                .then(console.log(this.rates[0].baseCurrency))
-                .catch(error => console.log(error));
+        async callApi() {
+            const url = `rates/${this.base.toLowerCase()}`;
+            const res = await fetch(url);
+            const data = await res.json();
+            this.rates = data;
+            console.log(this.rates);
         },
         getRate() {
             let targetCurrency = this.rates.filter(rate => {
@@ -89,13 +94,21 @@ export default {
             console.log("GetRateCalled");
             return (this.rate = targetCurrency[0].exchangeRate);
         },
-        async calculate() {
+
+        async recallApi() {
+            this.loading = true;
             await this.callApi();
+            await this.getRate();
+            this.loading = false;
+            this.result = (parseInt(this.amount) * this.rate).toFixed(2);
+        },
+        async calculate() {
             await this.getRate();
             this.result = (parseInt(this.amount) * this.rate).toFixed(2);
         }
     },
     mounted() {
+        this.callApi();
         console.log("Component mounted.");
     }
 };

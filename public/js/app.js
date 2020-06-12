@@ -2088,11 +2088,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       baseCurrency: {},
-      base: "GBP",
+      base: "EGP",
       target: "USD",
       amount: null,
       rates: [],
@@ -38542,8 +38545,18 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
+    _c("div", { staticClass: "row" }, [
+      _c("p", { staticClass: "float-left text-info " }, [
+        _vm._v(
+          "\n            Rates on : " +
+            _vm._s(_vm.baseCurrency.pubDate) +
+            "\n        "
+        )
+      ])
+    ]),
+    _vm._v(" "),
     _vm.loading
-      ? _c("div", [_vm._m(0)])
+      ? _c("div", { staticClass: "alert" }, [_vm._m(0)])
       : _c("div", { staticClass: "card" }, [
           _c("div", { staticClass: "card-header bg-secondary" }, [
             !_vm.reversed
@@ -38558,7 +38571,7 @@ var render = function() {
                           "\n                    Please add amount\n                "
                         )
                       ])
-                    : _c("span", [
+                    : _c("span", { staticClass: "text-warning" }, [
                         _c(
                           "span",
                           { staticClass: "badge-info rounded p-2 mr-2" },
@@ -38600,7 +38613,7 @@ var render = function() {
                           "\n                    Please add amount\n                "
                         )
                       ])
-                    : _c("span", [
+                    : _c("span", { staticClass: "text-warning" }, [
                         _c(
                           "span",
                           { staticClass: "float-right text-warning rounded" },
@@ -38664,161 +38677,153 @@ var render = function() {
                   )
                 ])
               ])
-            : _vm._e(),
-          _vm._v(" "),
-          _c("div", { staticClass: "card-footer" }, [
-            _c("p", { staticClass: "float-left text-info " }, [
-              _vm._v(
-                "\n                Rates on : " +
-                  _vm._s(_vm.baseCurrency.pubDate) +
-                  "\n            "
-              )
-            ])
-          ])
+            : _vm._e()
         ]),
     _vm._v(" "),
-    _c(
-      "form",
-      {
-        attrs: { method: "get", action: "" },
-        on: {
-          submit: function($event) {
-            $event.preventDefault()
-            return _vm.getRates($event)
-          }
-        }
-      },
-      [
-        _c("div", { staticClass: "form-group" }, [
-          _c("label", { attrs: { for: "amount" } }, [_vm._v(" Amount ")]),
-          _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.amount,
-                expression: "amount"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: {
-              type: "number",
-              placeholder: "amount",
-              name: "amount",
-              id: "amount"
-            },
-            domProps: { value: _vm.amount },
-            on: {
-              keyup: _vm.calculate,
-              input: [
-                function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.amount = $event.target.value
-                },
-                _vm.calculate
-              ]
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "form-group" }, [
-          _c("label", { attrs: { for: "base" } }, [_vm._v(" From ")]),
-          _vm._v(" "),
-          _c(
-            "select",
-            {
+    _vm.rates
+      ? _c("div", { staticClass: "mt-4" }, [
+          _c("div", { staticClass: "form-group" }, [
+            _c(
+              "label",
+              { staticClass: "font-weight-bold", attrs: { for: "amount" } },
+              [_vm._v(" Amount ")]
+            ),
+            _vm._v(" "),
+            _c("input", {
               directives: [
                 {
                   name: "model",
                   rawName: "v-model",
-                  value: _vm.base,
-                  expression: "base"
+                  value: _vm.amount,
+                  expression: "amount"
                 }
               ],
               staticClass: "form-control",
-              attrs: { name: "base", id: "base" },
+              attrs: {
+                type: "number",
+                placeholder: "amount",
+                name: "amount",
+                id: "amount"
+              },
+              domProps: { value: _vm.amount },
               on: {
-                change: [
+                keyup: _vm.calculate,
+                input: [
                   function($event) {
-                    var $$selectedVal = Array.prototype.filter
-                      .call($event.target.options, function(o) {
-                        return o.selected
-                      })
-                      .map(function(o) {
-                        var val = "_value" in o ? o._value : o.value
-                        return val
-                      })
-                    _vm.base = $event.target.multiple
-                      ? $$selectedVal
-                      : $$selectedVal[0]
-                  },
-                  _vm.resetBase
-                ]
-              }
-            },
-            [
-              _c("option", { attrs: { value: "GBP" } }, [_vm._v("GBP")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "USD" } }, [_vm._v("USD")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "EUR" } }, [_vm._v("EUR")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "EGP" } }, [_vm._v("EGP")])
-            ]
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "form-group" }, [
-          _c("label", { attrs: { for: "target" } }, [_vm._v(" To ")]),
-          _vm._v(" "),
-          _c(
-            "select",
-            {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.target,
-                  expression: "target"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: { name: "target", id: "target" },
-              on: {
-                change: [
-                  function($event) {
-                    var $$selectedVal = Array.prototype.filter
-                      .call($event.target.options, function(o) {
-                        return o.selected
-                      })
-                      .map(function(o) {
-                        var val = "_value" in o ? o._value : o.value
-                        return val
-                      })
-                    _vm.target = $event.target.multiple
-                      ? $$selectedVal
-                      : $$selectedVal[0]
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.amount = $event.target.value
                   },
                   _vm.calculate
                 ]
               }
-            },
-            [
-              _c("option", { attrs: { value: "GBP" } }, [_vm._v("GBP")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "USD" } }, [_vm._v("USD")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "EUR" } }, [_vm._v("EUR")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "EGP" } }, [_vm._v("EGP")])
-            ]
-          )
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
+            _c(
+              "label",
+              { staticClass: "font-weight-bold", attrs: { for: "base" } },
+              [_vm._v(" From ")]
+            ),
+            _vm._v(" "),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.base,
+                    expression: "base"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { name: "base", id: "base" },
+                on: {
+                  change: [
+                    function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.base = $event.target.multiple
+                        ? $$selectedVal
+                        : $$selectedVal[0]
+                    },
+                    _vm.resetBase
+                  ]
+                }
+              },
+              [
+                _c("option", { attrs: { value: "GBP" } }, [_vm._v("GBP")]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "USD" } }, [_vm._v("USD")]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "EUR" } }, [_vm._v("EUR")]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "EGP" } }, [_vm._v("EGP")])
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
+            _c(
+              "label",
+              { staticClass: "font-weight-bold", attrs: { for: "target" } },
+              [_vm._v(" To ")]
+            ),
+            _vm._v(" "),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.target,
+                    expression: "target"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { name: "target", id: "target" },
+                on: {
+                  change: [
+                    function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.target = $event.target.multiple
+                        ? $$selectedVal
+                        : $$selectedVal[0]
+                    },
+                    _vm.calculate
+                  ]
+                }
+              },
+              [
+                _c("option", { attrs: { value: "GBP" } }, [_vm._v("GBP")]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "USD" } }, [_vm._v("USD")]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "EUR" } }, [_vm._v("EUR")]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "EGP" } }, [_vm._v("EGP")])
+              ]
+            )
+          ])
         ])
-      ]
-    ),
+      : _vm._e(),
     _vm._v(" "),
     _vm.amount
       ? _c("div", { staticClass: "alert" }, [
@@ -38837,7 +38842,7 @@ var render = function() {
                   staticClass: "btn btn-info float-right",
                   on: { click: _vm.reverse }
                 },
-                [_vm._v("\n            Back\n        ")]
+                [_vm._v("\n            Original\n        ")]
               )
         ])
       : _vm._e()
@@ -38850,8 +38855,11 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c(
       "div",
-      { staticClass: "spinner-border text-success", attrs: { role: "status" } },
-      [_c("span", { staticClass: "sr-only" }, [_vm._v("Loading...")])]
+      {
+        staticClass: "spinner-border text-success text-center",
+        attrs: { role: "status" }
+      },
+      [_c("span", { staticClass: "sr-only " }, [_vm._v("Loading...")])]
     )
   }
 ]

@@ -2028,16 +2028,41 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      baseCurrency: {},
       base: "GBP",
-      target: "",
+      target: "USD",
       amount: null,
       rates: [],
       rate: "",
       loading: false,
-      result: ""
+      result: null,
+      reversed: false
     };
   },
   methods: {
@@ -2062,9 +2087,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 6:
                 data = _context.sent;
                 _this.rates = data;
-                console.log(_this.rates);
+                _context.next = 10;
+                return _this.setBaseCurrency();
 
-              case 9:
+              case 10:
+                console.log(_this.baseCurrency);
+
+              case 11:
               case "end":
                 return _context.stop();
             }
@@ -2072,16 +2101,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
-    getRate: function getRate() {
+    setBaseCurrency: function setBaseCurrency() {
       var _this2 = this;
 
-      var targetCurrency = this.rates.filter(function (rate) {
-        return _this2.target == rate.targetCurrency;
+      var Currency = this.rates.map(function (rate) {
+        rate.baseCurrency == _this2.base ? _this2.baseCurrency = rate : {};
       });
-      console.log("GetRateCalled");
-      return this.rate = targetCurrency[0].exchangeRate;
     },
-    recallApi: function recallApi() {
+    resetBase: function resetBase() {
       var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
@@ -2109,27 +2136,33 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }))();
     },
-    calculate: function calculate() {
+    getRate: function getRate() {
       var _this4 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                _context3.next = 2;
-                return _this4.getRate();
+      var targetCurrency = this.rates.filter(function (rate) {
+        return _this4.target == rate.targetCurrency;
+      });
+      console.log("GetRateCalled");
+      return this.reversed ? this.rate = targetCurrency[0].inverseRate : this.rate = targetCurrency[0].exchangeRate;
+    },
+    getReverseRate: function getReverseRate() {
+      var _this5 = this;
 
-              case 2:
-                _this4.result = (parseInt(_this4.amount) * _this4.rate).toFixed(2);
-
-              case 3:
-              case "end":
-                return _context3.stop();
-            }
-          }
-        }, _callee3);
-      }))();
+      var targetCurrency = this.rates.filter(function (rate) {
+        return _this5.target == rate.targetCurrency;
+      });
+      console.log("GetRateCalled");
+      return this.rate = targetCurrency[0].inverseRate;
+    },
+    calculate: function calculate() {
+      this.getRate();
+      this.result = (parseInt(this.amount) * this.rate).toFixed(2);
+      console.log("calclulate called  :>>");
+    },
+    reverse: function reverse() {
+      this.reversed = !this.reversed;
+      this.getRate();
+      this.calculate();
     }
   },
   mounted: function mounted() {
@@ -38471,24 +38504,68 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("p", [_vm._v("Rate = " + _vm._s(_vm.rate))]),
-    _vm._v(" "),
-    _c("p", [_vm._v("Base = " + _vm._s(_vm.base))]),
-    _vm._v(" "),
-    _c("p", [_vm._v("target= " + _vm._s(_vm.target))]),
-    _vm._v(" "),
-    _c("p", [_vm._v("result= " + _vm._s(_vm.result))]),
-    _vm._v(" "),
-    _vm.loading
-      ? _c(
-          "div",
-          {
-            staticClass: "spinner-border text-success",
-            attrs: { role: "status" }
-          },
-          [_c("span", { staticClass: "sr-only" }, [_vm._v("Loading...")])]
-        )
-      : _vm._e(),
+    _c("div", { staticClass: " bg-info" }, [
+      !_vm.loading
+        ? _c("div", { staticClass: " alert border" }, [
+            _vm.reversed
+              ? _c("div", [
+                  _c("h3", { staticClass: "test-info" }, [_vm._v("Reversed")]),
+                  _vm._v(" "),
+                  _c("p", [_vm._v("Rate = " + _vm._s(_vm.rate))]),
+                  _vm._v(" "),
+                  _c("p", [_vm._v("Base = " + _vm._s(_vm.target))]),
+                  _vm._v(" "),
+                  _c("p", [_vm._v("target= " + _vm._s(_vm.base))]),
+                  _vm._v(" "),
+                  isNaN(_vm.result)
+                    ? _c("p", [_vm._v("result = Now add amount")])
+                    : !_vm.result
+                    ? _c("p", [_vm._v("result = Please complete the form")])
+                    : _c("p", [_vm._v("result= " + _vm._s(_vm.result))])
+                ])
+              : _c("div", [
+                  _c("h3", { staticClass: "test-info" }, [_vm._v("Original")]),
+                  _vm._v(" "),
+                  _c("p", [_vm._v("Rate = " + _vm._s(_vm.rate))]),
+                  _vm._v(" "),
+                  _c("p", [
+                    _vm._v(
+                      "inverseRate = " + _vm._s(_vm.baseCurrency.inverseRate)
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("p", [
+                    _vm._v(
+                      "Base = " + _vm._s(_vm.revirsed ? _vm.target : _vm.base)
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("p", [
+                    _vm._v(
+                      "target= " + _vm._s(_vm.revirsed ? _vm.base : _vm.target)
+                    )
+                  ]),
+                  _vm._v(" "),
+                  isNaN(_vm.result)
+                    ? _c("p", [_vm._v("result = Now add amount")])
+                    : !_vm.result
+                    ? _c("p", [_vm._v("result = Please complete the form")])
+                    : _c("p", [_vm._v("result= " + _vm._s(_vm.result))])
+                ])
+          ])
+        : _vm.loading
+        ? _c(
+            "div",
+            {
+              staticClass: "spinner-border text-success",
+              attrs: { role: "status" }
+            },
+            [_c("span", { staticClass: "sr-only" }, [_vm._v("Loading...")])]
+          )
+        : _c("div", [
+            _c("span", { staticClass: "sr-only" }, [_vm._v(_vm._s(_vm.result))])
+          ])
+    ]),
     _vm._v(" "),
     _c(
       "form",
@@ -38519,8 +38596,7 @@ var render = function() {
               type: "number",
               placeholder: "amount",
               name: "amount",
-              id: "amount",
-              value: "10"
+              id: "amount"
             },
             domProps: { value: _vm.amount },
             on: {
@@ -38569,15 +38645,11 @@ var render = function() {
                       ? $$selectedVal
                       : $$selectedVal[0]
                   },
-                  _vm.recallApi
+                  _vm.resetBase
                 ]
               }
             },
             [
-              _c("option", { attrs: { value: "" } }, [
-                _vm._v(" select target currency")
-              ]),
-              _vm._v(" "),
               _c("option", { attrs: { value: "GBP" } }, [_vm._v("GBP")]),
               _vm._v(" "),
               _c("option", { attrs: { value: "USD" } }, [_vm._v("USD")]),
@@ -38625,10 +38697,6 @@ var render = function() {
               }
             },
             [
-              _c("option", { attrs: { value: "" } }, [
-                _vm._v(" select target currency")
-              ]),
-              _vm._v(" "),
               _c("option", { attrs: { value: "GBP" } }, [_vm._v("GBP")]),
               _vm._v(" "),
               _c("option", { attrs: { value: "USD" } }, [_vm._v("USD")]),
@@ -38638,27 +38706,20 @@ var render = function() {
               _c("option", { attrs: { value: "EGP" } }, [_vm._v("EGP")])
             ]
           )
-        ]),
-        _vm._v(" "),
-        _vm._m(0)
+        ])
       ]
-    )
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "alert" }, [
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "alert" }, [
       _c(
         "button",
-        { staticClass: "btn btn-info float-right", attrs: { type: "submit" } },
-        [_vm._v("\n                Reverse\n            ")]
+        { staticClass: "btn btn-info float-right", on: { click: _vm.reverse } },
+        [_vm._v("\n            Reverse\n        ")]
       )
     ])
-  }
-]
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 

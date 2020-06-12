@@ -16,8 +16,14 @@
             <div class="card-header bg-secondary">
                 <!-- Original header -->
                 <h5 v-if="!reversed" class="card-title text-center">
-                    <span v-if="isNaN(result)" class="text-warning"
+                    <span v-if="isNaN(result) && !amount" class="text-warning"
                         >Please add amount</span
+                    >
+                    <span
+                        v-else-if="isNaN(result) && amount"
+                        class="text-danger"
+                    >
+                        Exchange rate for {{ target }} is Not avilable</span
                     >
                     <span v-else-if="!result" class="text-warning">
                         Please add amount
@@ -81,7 +87,8 @@
                 />
             </div>
             <div class="form-group">
-                <label for="base" class="font-weight-bold"> From </label>
+                <label for="base" class="font-weight-bold"> From: </label>
+                <span class="text-info">{{ baseCurrency.baseName }}</span>
                 <select
                     class="form-control"
                     name="base"
@@ -89,15 +96,20 @@
                     v-model="base"
                     @change="resetBase"
                 >
-                    <option value="GBP">GBP</option>
-                    <option value="USD">USD</option>
-                    <option value="EUR">EUR</option>
-                    <option value="EGP">EGP</option>
+                    <option>{{ base }}</option>
+                    <option
+                        v-for="rate in rates"
+                        :key="rate.targetCurrency"
+                        :value="rate.targetCurrency"
+                    >
+                        {{ rate.targetCurrency }} - {{ rate.targetName }}
+                    </option>
                 </select>
             </div>
 
             <div class="form-group">
-                <label for="target" class="font-weight-bold"> To </label>
+                <label for="target" class="font-weight-bold"> To: </label>
+                <span class="text-info">{{ targetCurrency.targetName }}</span>
 
                 <select
                     class="form-control"
@@ -106,8 +118,12 @@
                     v-model="target"
                     @change="calculate"
                 >
-                    <option v-for="rate in rates" :key="rate.targetCurrency">
-                        {{ rate.targetCurrency }}
+                    <option
+                        v-for="rate in rates"
+                        :key="rate.targetCurrency"
+                        :value="rate.targetCurrency"
+                    >
+                        {{ rate.targetCurrency }} - {{ rate.targetName }}
                     </option>
                 </select>
             </div>
@@ -132,6 +148,7 @@ export default {
     data() {
         return {
             baseCurrency: {},
+            targetCurrency: {},
             base: "EGP",
             target: "USD",
             amount: null,
@@ -144,12 +161,15 @@ export default {
     },
     methods: {
         async callApi() {
+            this.loading = true;
             const url = `rates/${this.base.toLowerCase()}`;
             const res = await fetch(url);
             const data = await res.json();
             this.rates = data;
             await this.setBaseCurrency();
+            await this.setTargetCurrency();
             this.rate = this.baseCurrency.exchangeRate;
+            this.loading = false;
             console.log(this.baseCurrency);
         },
 
@@ -157,6 +177,14 @@ export default {
             let Currency = this.rates.map(rate => {
                 rate.baseCurrency == this.base
                     ? (this.baseCurrency = rate)
+                    : {};
+            });
+        },
+
+        setTargetCurrency() {
+            let Currency = this.rates.map(rate => {
+                rate.targetCurrency == this.target
+                    ? (this.targetCurrency = rate)
                     : {};
             });
         },
@@ -190,6 +218,7 @@ export default {
 
         calculate() {
             this.getRate();
+            this.setTargetCurrency();
             this.result = (parseInt(this.amount) * this.rate).toFixed(2);
             console.log("calclulate called  :>>");
         },

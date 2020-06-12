@@ -2090,10 +2090,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       baseCurrency: {},
+      targetCurrency: {},
       base: "EGP",
       target: "USD",
       amount: null,
@@ -2114,26 +2131,32 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                _this.loading = true;
                 url = "rates/".concat(_this.base.toLowerCase());
-                _context.next = 3;
+                _context.next = 4;
                 return fetch(url);
 
-              case 3:
+              case 4:
                 res = _context.sent;
-                _context.next = 6;
+                _context.next = 7;
                 return res.json();
 
-              case 6:
+              case 7:
                 data = _context.sent;
                 _this.rates = data;
-                _context.next = 10;
+                _context.next = 11;
                 return _this.setBaseCurrency();
 
-              case 10:
+              case 11:
+                _context.next = 13;
+                return _this.setTargetCurrency();
+
+              case 13:
                 _this.rate = _this.baseCurrency.exchangeRate;
+                _this.loading = false;
                 console.log(_this.baseCurrency);
 
-              case 12:
+              case 16:
               case "end":
                 return _context.stop();
             }
@@ -2148,25 +2171,32 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         rate.baseCurrency == _this2.base ? _this2.baseCurrency = rate : {};
       });
     },
-    resetBase: function resetBase() {
+    setTargetCurrency: function setTargetCurrency() {
       var _this3 = this;
+
+      var Currency = this.rates.map(function (rate) {
+        rate.targetCurrency == _this3.target ? _this3.targetCurrency = rate : {};
+      });
+    },
+    resetBase: function resetBase() {
+      var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _this3.loading = true;
+                _this4.loading = true;
                 _context2.next = 3;
-                return _this3.callApi();
+                return _this4.callApi();
 
               case 3:
                 _context2.next = 5;
-                return _this3.getRate();
+                return _this4.getRate();
 
               case 5:
-                _this3.loading = false;
-                _this3.result = (parseInt(_this3.amount) * _this3.rate).toFixed(2);
+                _this4.loading = false;
+                _this4.result = (parseInt(_this4.amount) * _this4.rate).toFixed(2);
 
               case 7:
               case "end":
@@ -2177,25 +2207,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     getRate: function getRate() {
-      var _this4 = this;
-
-      var targetCurrency = this.rates.filter(function (rate) {
-        return _this4.target == rate.targetCurrency;
-      });
-      console.log("GetRateCalled");
-      return this.reversed ? this.rate = targetCurrency[0].inverseRate : this.rate = targetCurrency[0].exchangeRate;
-    },
-    getReverseRate: function getReverseRate() {
       var _this5 = this;
 
       var targetCurrency = this.rates.filter(function (rate) {
         return _this5.target == rate.targetCurrency;
       });
       console.log("GetRateCalled");
+      return this.reversed ? this.rate = targetCurrency[0].inverseRate : this.rate = targetCurrency[0].exchangeRate;
+    },
+    getReverseRate: function getReverseRate() {
+      var _this6 = this;
+
+      var targetCurrency = this.rates.filter(function (rate) {
+        return _this6.target == rate.targetCurrency;
+      });
+      console.log("GetRateCalled");
       return this.rate = targetCurrency[0].inverseRate;
     },
     calculate: function calculate() {
       this.getRate();
+      this.setTargetCurrency();
       this.result = (parseInt(this.amount) * this.rate).toFixed(2);
       console.log("calclulate called  :>>");
     },
@@ -38560,9 +38591,17 @@ var render = function() {
           _c("div", { staticClass: "card-header bg-secondary" }, [
             !_vm.reversed
               ? _c("h5", { staticClass: "card-title text-center" }, [
-                  isNaN(_vm.result)
+                  isNaN(_vm.result) && !_vm.amount
                     ? _c("span", { staticClass: "text-warning" }, [
                         _vm._v("Please add amount")
+                      ])
+                    : isNaN(_vm.result) && _vm.amount
+                    ? _c("span", { staticClass: "text-danger" }, [
+                        _vm._v(
+                          "\n                    Exchange rate for " +
+                            _vm._s(_vm.target) +
+                            " is Not avilable"
+                        )
                       ])
                     : !_vm.result
                     ? _c("span", { staticClass: "text-warning" }, [
@@ -38724,8 +38763,12 @@ var render = function() {
             _c(
               "label",
               { staticClass: "font-weight-bold", attrs: { for: "base" } },
-              [_vm._v(" From ")]
+              [_vm._v(" From: ")]
             ),
+            _vm._v(" "),
+            _c("span", { staticClass: "text-info" }, [
+              _vm._v(_vm._s(_vm.baseCurrency.baseName))
+            ]),
             _vm._v(" "),
             _c(
               "select",
@@ -38760,14 +38803,28 @@ var render = function() {
                 }
               },
               [
-                _c("option", { attrs: { value: "GBP" } }, [_vm._v("GBP")]),
+                _c("option", [_vm._v(_vm._s(_vm.base))]),
                 _vm._v(" "),
-                _c("option", { attrs: { value: "USD" } }, [_vm._v("USD")]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "EUR" } }, [_vm._v("EUR")]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "EGP" } }, [_vm._v("EGP")])
-              ]
+                _vm._l(_vm.rates, function(rate) {
+                  return _c(
+                    "option",
+                    {
+                      key: rate.targetCurrency,
+                      domProps: { value: rate.targetCurrency }
+                    },
+                    [
+                      _vm._v(
+                        "\n                    " +
+                          _vm._s(rate.targetCurrency) +
+                          " - " +
+                          _vm._s(rate.targetName) +
+                          "\n                "
+                      )
+                    ]
+                  )
+                })
+              ],
+              2
             )
           ]),
           _vm._v(" "),
@@ -38775,8 +38832,12 @@ var render = function() {
             _c(
               "label",
               { staticClass: "font-weight-bold", attrs: { for: "target" } },
-              [_vm._v(" To ")]
+              [_vm._v(" To: ")]
             ),
+            _vm._v(" "),
+            _c("span", { staticClass: "text-info" }, [
+              _vm._v(_vm._s(_vm.targetCurrency.targetName))
+            ]),
             _vm._v(" "),
             _c(
               "select",
@@ -38811,13 +38872,22 @@ var render = function() {
                 }
               },
               _vm._l(_vm.rates, function(rate) {
-                return _c("option", { key: rate.targetCurrency }, [
-                  _vm._v(
-                    "\n                    " +
-                      _vm._s(rate.targetCurrency) +
-                      "\n                "
-                  )
-                ])
+                return _c(
+                  "option",
+                  {
+                    key: rate.targetCurrency,
+                    domProps: { value: rate.targetCurrency }
+                  },
+                  [
+                    _vm._v(
+                      "\n                    " +
+                        _vm._s(rate.targetCurrency) +
+                        " - " +
+                        _vm._s(rate.targetName) +
+                        "\n                "
+                    )
+                  ]
+                )
               }),
               0
             )

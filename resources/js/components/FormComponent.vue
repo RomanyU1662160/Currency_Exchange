@@ -106,10 +106,9 @@
                     v-model="target"
                     @change="calculate"
                 >
-                    <option value="GBP">GBP</option>
-                    <option value="USD">USD</option>
-                    <option value="EUR">EUR</option>
-                    <option value="EGP">EGP</option>
+                    <option v-for="rate in rates" :key="rate.targetCurrency">
+                        {{ rate.targetCurrency }}
+                    </option>
                 </select>
             </div>
         </div>

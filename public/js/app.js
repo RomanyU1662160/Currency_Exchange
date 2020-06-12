@@ -2090,7 +2090,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -38811,15 +38810,16 @@ var render = function() {
                   ]
                 }
               },
-              [
-                _c("option", { attrs: { value: "GBP" } }, [_vm._v("GBP")]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "USD" } }, [_vm._v("USD")]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "EUR" } }, [_vm._v("EUR")]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "EGP" } }, [_vm._v("EGP")])
-              ]
+              _vm._l(_vm.rates, function(rate) {
+                return _c("option", { key: rate.targetCurrency }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(rate.targetCurrency) +
+                      "\n                "
+                  )
+                ])
+              }),
+              0
             )
           ])
         ])

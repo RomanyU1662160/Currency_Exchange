@@ -1,39 +1,69 @@
 <template>
     <div>
-        <div class=" bg-info">
-            <div v-if="!loading" class=" alert border">
-                <div v-if="reversed">
-                    <h3 class="test-info">Reversed</h3>
-                    <p>Rate = {{ rate }}</p>
-                    <p>Base = {{ target }}</p>
-                    <p>target= {{ base }}</p>
-                    <p v-if="isNaN(result)">result = Now add amount</p>
-                    <p v-else-if="!result">result = Please complete the form</p>
-                    <p v-else>result= {{ result }}</p>
-                </div>
-                <div v-else>
-                    <h3 class="test-info">Original</h3>
-
-                    <p>Rate = {{ rate }}</p>
-                    <p>inverseRate = {{ baseCurrency.inverseRate }}</p>
-                    <p>Base = {{ revirsed ? target : base }}</p>
-                    <p>target= {{ revirsed ? base : target }}</p>
-                    <p v-if="isNaN(result)">result = Now add amount</p>
-                    <p v-else-if="!result">result = Please complete the form</p>
-                    <p v-else>result= {{ result }}</p>
-                </div>
-            </div>
-            <div
-                v-else-if="loading"
-                class="spinner-border text-success"
-                role="status"
-            >
+        <div v-if="loading">
+            <div class="spinner-border text-success" role="status">
                 <span class="sr-only">Loading...</span>
             </div>
-            <div v-else>
-                <span class="sr-only">{{ result }}</span>
+        </div>
+        <div v-else="" class="card">
+            <div class="card-header bg-secondary">
+                <!-- Original header -->
+                <h5 v-if="!reversed" class="card-title text-center">
+                    <span v-if="isNaN(result)" class="text-warning"
+                        >Please add amount</span
+                    >
+                    <span v-else-if="!result" class="text-warning">
+                        Please add amount
+                    </span>
+                    <span v-else>
+                        <span class="badge-info rounded p-2 mr-2">
+                            {{ amount }} </span
+                        >{{ base }} =
+                        <span class="badge-success p-2 mr-2 rounded ">
+                            {{ result }}
+                        </span>
+                        {{ target }}
+                    </span>
+                </h5>
+                <!-- Reversed header-->
+                <h5 v-else class="card-title text-center">
+                    <span v-if="isNaN(result)" class="text-warning"
+                        >Now add amount</span
+                    >
+                    <span v-else-if="!result">
+                        Please add amount
+                    </span>
+                    <span v-else>
+                        <span class="float-right text-warning rounded">
+                            Reversed
+                        </span>
+                        <span class="badge-info p-2 mr-2 rounded">
+                            {{ amount }} </span
+                        >{{ target }} =
+                        <span class="badge-success p-2 mr-2">
+                            {{ result }}
+                        </span>
+                        {{ base }}
+                    </span>
+                </h5>
+            </div>
+            <div v-if="amount">
+                <div class="card-body">
+                    <table class="table table-hover table-borderless">
+                        <tr>
+                            <th>Rate :</th>
+                            <td>1 {{ base }} = {{ rate }} {{ target }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer">
+                <p class="float-left text-info ">
+                    Rates on : {{ baseCurrency.pubDate }}
+                </p>
             </div>
         </div>
+
         <form method="get" action="" @submit.prevent="getRates">
             <div class="form-group">
                 <label for="amount"> Amount </label>
@@ -81,9 +111,16 @@
                 </select>
             </div>
         </form>
-        <div class="alert">
-            <button class="btn btn-info float-right" @click="reverse">
+        <div v-if="amount" class="alert">
+            <button
+                v-if="!reversed"
+                class="btn btn-info float-right"
+                @click="reverse"
+            >
                 Reverse
+            </button>
+            <button v-else class="btn btn-info float-right" @click="reverse">
+                Back
             </button>
         </div>
     </div>
@@ -110,6 +147,7 @@ export default {
             const data = await res.json();
             this.rates = data;
             await this.setBaseCurrency();
+            this.rate = this.baseCurrency.exchangeRate;
             console.log(this.baseCurrency);
         },
 

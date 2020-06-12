@@ -2051,6 +2051,43 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2091,9 +2128,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _this.setBaseCurrency();
 
               case 10:
+                _this.rate = _this.baseCurrency.exchangeRate;
                 console.log(_this.baseCurrency);
 
-              case 11:
+              case 12:
               case "end":
                 return _context.stop();
             }
@@ -38504,68 +38542,140 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", { staticClass: " bg-info" }, [
-      !_vm.loading
-        ? _c("div", { staticClass: " alert border" }, [
-            _vm.reversed
-              ? _c("div", [
-                  _c("h3", { staticClass: "test-info" }, [_vm._v("Reversed")]),
-                  _vm._v(" "),
-                  _c("p", [_vm._v("Rate = " + _vm._s(_vm.rate))]),
-                  _vm._v(" "),
-                  _c("p", [_vm._v("Base = " + _vm._s(_vm.target))]),
-                  _vm._v(" "),
-                  _c("p", [_vm._v("target= " + _vm._s(_vm.base))]),
-                  _vm._v(" "),
+    _vm.loading
+      ? _c("div", [_vm._m(0)])
+      : _c("div", { staticClass: "card" }, [
+          _c("div", { staticClass: "card-header bg-secondary" }, [
+            !_vm.reversed
+              ? _c("h5", { staticClass: "card-title text-center" }, [
                   isNaN(_vm.result)
-                    ? _c("p", [_vm._v("result = Now add amount")])
+                    ? _c("span", { staticClass: "text-warning" }, [
+                        _vm._v("Please add amount")
+                      ])
                     : !_vm.result
-                    ? _c("p", [_vm._v("result = Please complete the form")])
-                    : _c("p", [_vm._v("result= " + _vm._s(_vm.result))])
+                    ? _c("span", { staticClass: "text-warning" }, [
+                        _vm._v(
+                          "\n                    Please add amount\n                "
+                        )
+                      ])
+                    : _c("span", [
+                        _c(
+                          "span",
+                          { staticClass: "badge-info rounded p-2 mr-2" },
+                          [
+                            _vm._v(
+                              "\n                        " +
+                                _vm._s(_vm.amount) +
+                                " "
+                            )
+                          ]
+                        ),
+                        _vm._v(_vm._s(_vm.base) + " =\n                    "),
+                        _c(
+                          "span",
+                          { staticClass: "badge-success p-2 mr-2 rounded " },
+                          [
+                            _vm._v(
+                              "\n                        " +
+                                _vm._s(_vm.result) +
+                                "\n                    "
+                            )
+                          ]
+                        ),
+                        _vm._v(
+                          "\n                    " +
+                            _vm._s(_vm.target) +
+                            "\n                "
+                        )
+                      ])
                 ])
-              : _c("div", [
-                  _c("h3", { staticClass: "test-info" }, [_vm._v("Original")]),
-                  _vm._v(" "),
-                  _c("p", [_vm._v("Rate = " + _vm._s(_vm.rate))]),
-                  _vm._v(" "),
-                  _c("p", [
-                    _vm._v(
-                      "inverseRate = " + _vm._s(_vm.baseCurrency.inverseRate)
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("p", [
-                    _vm._v(
-                      "Base = " + _vm._s(_vm.revirsed ? _vm.target : _vm.base)
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("p", [
-                    _vm._v(
-                      "target= " + _vm._s(_vm.revirsed ? _vm.base : _vm.target)
-                    )
-                  ]),
-                  _vm._v(" "),
+              : _c("h5", { staticClass: "card-title text-center" }, [
                   isNaN(_vm.result)
-                    ? _c("p", [_vm._v("result = Now add amount")])
+                    ? _c("span", { staticClass: "text-warning" }, [
+                        _vm._v("Now add amount")
+                      ])
                     : !_vm.result
-                    ? _c("p", [_vm._v("result = Please complete the form")])
-                    : _c("p", [_vm._v("result= " + _vm._s(_vm.result))])
+                    ? _c("span", [
+                        _vm._v(
+                          "\n                    Please add amount\n                "
+                        )
+                      ])
+                    : _c("span", [
+                        _c(
+                          "span",
+                          { staticClass: "float-right text-warning rounded" },
+                          [
+                            _vm._v(
+                              "\n                        Reversed\n                    "
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "span",
+                          { staticClass: "badge-info p-2 mr-2 rounded" },
+                          [
+                            _vm._v(
+                              "\n                        " +
+                                _vm._s(_vm.amount) +
+                                " "
+                            )
+                          ]
+                        ),
+                        _vm._v(_vm._s(_vm.target) + " =\n                    "),
+                        _c("span", { staticClass: "badge-success p-2 mr-2" }, [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(_vm.result) +
+                              "\n                    "
+                          )
+                        ]),
+                        _vm._v(
+                          "\n                    " +
+                            _vm._s(_vm.base) +
+                            "\n                "
+                        )
+                      ])
                 ])
+          ]),
+          _vm._v(" "),
+          _vm.amount
+            ? _c("div", [
+                _c("div", { staticClass: "card-body" }, [
+                  _c(
+                    "table",
+                    { staticClass: "table table-hover table-borderless" },
+                    [
+                      _c("tr", [
+                        _c("th", [_vm._v("Rate :")]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v(
+                            "1 " +
+                              _vm._s(_vm.base) +
+                              " = " +
+                              _vm._s(_vm.rate) +
+                              " " +
+                              _vm._s(_vm.target)
+                          )
+                        ])
+                      ])
+                    ]
+                  )
+                ])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-footer" }, [
+            _c("p", { staticClass: "float-left text-info " }, [
+              _vm._v(
+                "\n                Rates on : " +
+                  _vm._s(_vm.baseCurrency.pubDate) +
+                  "\n            "
+              )
+            ])
           ])
-        : _vm.loading
-        ? _c(
-            "div",
-            {
-              staticClass: "spinner-border text-success",
-              attrs: { role: "status" }
-            },
-            [_c("span", { staticClass: "sr-only" }, [_vm._v("Loading...")])]
-          )
-        : _c("div", [
-            _c("span", { staticClass: "sr-only" }, [_vm._v(_vm._s(_vm.result))])
-          ])
-    ]),
+        ]),
     _vm._v(" "),
     _c(
       "form",
@@ -38710,16 +38820,41 @@ var render = function() {
       ]
     ),
     _vm._v(" "),
-    _c("div", { staticClass: "alert" }, [
-      _c(
-        "button",
-        { staticClass: "btn btn-info float-right", on: { click: _vm.reverse } },
-        [_vm._v("\n            Reverse\n        ")]
-      )
-    ])
+    _vm.amount
+      ? _c("div", { staticClass: "alert" }, [
+          !_vm.reversed
+            ? _c(
+                "button",
+                {
+                  staticClass: "btn btn-info float-right",
+                  on: { click: _vm.reverse }
+                },
+                [_vm._v("\n            Reverse\n        ")]
+              )
+            : _c(
+                "button",
+                {
+                  staticClass: "btn btn-info float-right",
+                  on: { click: _vm.reverse }
+                },
+                [_vm._v("\n            Back\n        ")]
+              )
+        ])
+      : _vm._e()
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "spinner-border text-success", attrs: { role: "status" } },
+      [_c("span", { staticClass: "sr-only" }, [_vm._v("Loading...")])]
+    )
+  }
+]
 render._withStripped = true
 
 

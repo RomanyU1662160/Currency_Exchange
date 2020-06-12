@@ -22,7 +22,6 @@
                     @keyup="calculate"
                     @input="calculate"
                 />
-                {{ amount }}
             </div>
             <div class="form-group">
                 <label for="base"> From </label>

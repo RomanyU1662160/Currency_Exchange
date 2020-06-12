@@ -2028,7 +2028,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -38536,8 +38535,7 @@ var render = function() {
                 _vm.calculate
               ]
             }
-          }),
-          _vm._v("\n            " + _vm._s(_vm.amount) + "\n        ")
+          })
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "form-group" }, [

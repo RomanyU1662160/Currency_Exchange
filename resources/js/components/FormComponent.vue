@@ -65,7 +65,17 @@
                     <table class="table table-hover table-borderless">
                         <tr>
                             <th>Rate :</th>
-                            <td>1 {{ base }} = {{ rate }} {{ target }}</td>
+                            <td>
+                                ( 1 )
+                                <span class="font-weight-bold ">
+                                    {{ baseCurrency.baseName }}</span
+                                >
+                                = <span class="text-info ">{{ rate }}</span>
+
+                                <span class="font-weight-bold">
+                                    {{ targetCurrency.targetName }}</span
+                                >
+                            </td>
                         </tr>
                     </table>
                 </div>

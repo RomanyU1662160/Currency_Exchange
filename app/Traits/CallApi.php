@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Http;
 trait CallApi
 {
 
-
     public  function getRates($base)
     {
         // $response = Http::get('https://gbp.fxexchangerate.com/rss.xml');

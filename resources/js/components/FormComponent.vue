@@ -81,6 +81,7 @@
                     placeholder="amount"
                     name="amount"
                     id="amount"
+                    min="0"
                     v-model="amount"
                     @keyup="calculate"
                     @input="calculate"

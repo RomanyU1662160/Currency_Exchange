@@ -2126,6 +2126,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -38761,7 +38762,8 @@ var render = function() {
                 type: "number",
                 placeholder: "amount",
                 name: "amount",
-                id: "amount"
+                id: "amount",
+                min: "0"
               },
               domProps: { value: _vm.amount },
               on: {

@@ -96,7 +96,18 @@
                     v-model="base"
                     @change="resetBase"
                 >
-                    <option>{{ base }}</option>
+                    <option value="GBP"> GBP - U.K. Pound Sterling</option>
+                    <option value="USD"> USD - U.S.A Dollar</option>
+                    <option value="EUR"> EUR - EURO</option>
+                    <option
+                        class="bg-light text-info font-weight-bold"
+                        disabled
+                    >
+                        List of currencies:
+                    </option>
+                    <option :value="base"
+                        >{{ base }} {{ baseCurrency.baseName }}</option
+                    >
                     <option
                         v-for="rate in rates"
                         :key="rate.targetCurrency"
@@ -118,6 +129,15 @@
                     v-model="target"
                     @change="calculate"
                 >
+                    <option value="GBP"> GBP - U.K. Pound Sterling</option>
+                    <option value="USD"> USD - U.S.A Dollar</option>
+                    <option value="EUR"> EUR - EURO</option>
+                    <option
+                        class="bg-light text-info font-weight-bold"
+                        disabled
+                    >
+                        List of currencies:
+                    </option>
                     <option
                         v-for="rate in rates"
                         :key="rate.targetCurrency"
@@ -149,7 +169,7 @@ export default {
         return {
             baseCurrency: {},
             targetCurrency: {},
-            base: "EGP",
+            base: "GBP",
             target: "USD",
             amount: null,
             rates: [],

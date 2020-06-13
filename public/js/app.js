@@ -2106,12 +2106,32 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       baseCurrency: {},
       targetCurrency: {},
-      base: "EGP",
+      base: "GBP",
       target: "USD",
       amount: null,
       rates: [],
@@ -38803,7 +38823,36 @@ var render = function() {
                 }
               },
               [
-                _c("option", [_vm._v(_vm._s(_vm.base))]),
+                _c("option", { attrs: { value: "GBP" } }, [
+                  _vm._v(" GBP - U.K. Pound Sterling")
+                ]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "USD" } }, [
+                  _vm._v(" USD - U.S.A Dollar")
+                ]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "EUR" } }, [
+                  _vm._v(" EUR - EURO")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "option",
+                  {
+                    staticClass: "bg-light text-info font-weight-bold",
+                    attrs: { disabled: "" }
+                  },
+                  [
+                    _vm._v(
+                      "\n                    List of currencies:\n                "
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c("option", { domProps: { value: _vm.base } }, [
+                  _vm._v(
+                    _vm._s(_vm.base) + " " + _vm._s(_vm.baseCurrency.baseName)
+                  )
+                ]),
                 _vm._v(" "),
                 _vm._l(_vm.rates, function(rate) {
                   return _c(
@@ -38871,25 +38920,52 @@ var render = function() {
                   ]
                 }
               },
-              _vm._l(_vm.rates, function(rate) {
-                return _c(
+              [
+                _c("option", { attrs: { value: "GBP" } }, [
+                  _vm._v(" GBP - U.K. Pound Sterling")
+                ]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "USD" } }, [
+                  _vm._v(" USD - U.S.A Dollar")
+                ]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "EUR" } }, [
+                  _vm._v(" EUR - EURO")
+                ]),
+                _vm._v(" "),
+                _c(
                   "option",
                   {
-                    key: rate.targetCurrency,
-                    domProps: { value: rate.targetCurrency }
+                    staticClass: "bg-light text-info font-weight-bold",
+                    attrs: { disabled: "" }
                   },
                   [
                     _vm._v(
-                      "\n                    " +
-                        _vm._s(rate.targetCurrency) +
-                        " - " +
-                        _vm._s(rate.targetName) +
-                        "\n                "
+                      "\n                    List of currencies:\n                "
                     )
                   ]
-                )
-              }),
-              0
+                ),
+                _vm._v(" "),
+                _vm._l(_vm.rates, function(rate) {
+                  return _c(
+                    "option",
+                    {
+                      key: rate.targetCurrency,
+                      domProps: { value: rate.targetCurrency }
+                    },
+                    [
+                      _vm._v(
+                        "\n                    " +
+                          _vm._s(rate.targetCurrency) +
+                          " - " +
+                          _vm._s(rate.targetName) +
+                          "\n                "
+                      )
+                    ]
+                  )
+                })
+              ],
+              2
             )
           ])
         ])
@@ -51341,8 +51417,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! I:\wamp64-v3-2\www\currency_exchange\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! I:\wamp64-v3-2\www\currency_exchange\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! I:\wamp64-v3-2\www\Currency_Exchange\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! I:\wamp64-v3-2\www\Currency_Exchange\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

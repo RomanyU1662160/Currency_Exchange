@@ -17,21 +17,17 @@ trait CallApi
         $response = Http::get("http://www.floatrates.com/daily/$base.xml");
         //dd($response->body());
 
-
         $body = $response->body();
 
         $xml = simplexml_load_string($body, 'SimpleXMLElement', LIBXML_NOCDATA);
 
         $json = json_encode($xml);   //convert Xml to json
-
         //dd($json);
+
         $array = json_decode($json, true);
         //dd($array['item']);
 
-
         return  $collection = collect($array['item']);
-
-
         // return view('test.index', compact('collection'));
     }
 }

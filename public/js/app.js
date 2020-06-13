@@ -38662,7 +38662,7 @@ var render = function() {
                             )
                           ]),
                           _vm._v("\n                            = "),
-                          _c("span", { staticClass: "text-info " }, [
+                          _c("span", { staticClass: "text-primary " }, [
                             _vm._v(_vm._s(_vm.rate))
                           ]),
                           _vm._v(" "),

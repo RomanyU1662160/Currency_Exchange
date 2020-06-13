@@ -70,7 +70,7 @@
                                 <span class="font-weight-bold ">
                                     {{ baseCurrency.baseName }}</span
                                 >
-                                = <span class="text-info ">{{ rate }}</span>
+                                = <span class="text-primary ">{{ rate }}</span>
 
                                 <span class="font-weight-bold">
                                     {{ targetCurrency.targetName }}</span

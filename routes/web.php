@@ -8,7 +8,8 @@ Route::get('/', function () {
     return view('home');
 });
 
-Route::get("/rates/{base}", "ApiController@getRates")->name("rates");
+// Route::get("/rates/{base}", "ApiController@getRates")->name("rates");
+Route::get("/rates/{base}", "CurrencyController@getRates")->name("rates");
 Route::get("/form", "CurrencyController@getForm")->name("getForm");
 Route::post("/form", "CurrencyController@postForm");
 

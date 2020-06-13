@@ -2104,6 +2104,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -38661,12 +38662,8 @@ var render = function() {
                                 _vm._s(_vm.baseCurrency.baseName)
                             )
                           ]),
-                          _vm._v("\n                            = "),
-<<<<<<< HEAD
-                          _c("span", { staticClass: "text-info " }, [
-=======
+                          _vm._v("\n\n                            = "),
                           _c("span", { staticClass: "text-primary " }, [
->>>>>>> refactor-files-add-unit-tests
                             _vm._v(_vm._s(_vm.rate))
                           ]),
                           _vm._v(" "),

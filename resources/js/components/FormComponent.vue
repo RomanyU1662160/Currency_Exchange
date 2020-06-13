@@ -70,11 +70,8 @@
                                 <span class="font-weight-bold ">
                                     {{ baseCurrency.baseName }}</span
                                 >
-<<<<<<< HEAD
-                                = <span class="text-info ">{{ rate }}</span>
-=======
+
                                 = <span class="text-primary ">{{ rate }}</span>
->>>>>>> refactor-files-add-unit-tests
 
                                 <span class="font-weight-bold">
                                     {{ targetCurrency.targetName }}</span

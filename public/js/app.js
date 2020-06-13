@@ -38662,7 +38662,11 @@ var render = function() {
                             )
                           ]),
                           _vm._v("\n                            = "),
+<<<<<<< HEAD
                           _c("span", { staticClass: "text-info " }, [
+=======
+                          _c("span", { staticClass: "text-primary " }, [
+>>>>>>> refactor-files-add-unit-tests
                             _vm._v(_vm._s(_vm.rate))
                           ]),
                           _vm._v(" "),

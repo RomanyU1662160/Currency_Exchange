@@ -1,0 +1,78 @@
+## **Create SSH key **
+
+- In your **AWS** Management Console, choose an **AWS** Region in which you plan to reserve contacts./
+- Choose Services > **EC2** > Network & Security > **Key** Pairs, and then choose Create **Key** Pair.
+- Enter a friendly name for your ssh key 
+
+
+
+## **Add SSH key to the Instance **
+
+- go to the instance and choose `configuration` from the side bar. 
+- select `security` and add your SSH key.  
+
+## **Connect to Putty: **
+
+More information in this link https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/putty.html
+
+1- Go to AWS console. 
+
+2- Select EC2 -> instances  and right click on the instance you want to connect and click on connect from the menu.
+
+3- Copy the connection details to your Putty. 
+
+4- select `SSH  -> Auth`  and  select your SSH key.
+
+
+
+## **Change the Nginx config : **
+
+1- in putty 
+
+`sudo nano/etc/nginx/nginx.config`
+
+2- Add the Laravel settings in the `server `  object: 
+
+```php
+index index.html index.htm index.php;
+
+    charset utf-8;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location = /robots.txt  { access_log off; log_not_found off; }
+
+    error_page 404 /index.php;
+```
+
+3- Restart the server 
+
+`sudo nginx -s reload `
+
+## How to run Laravel commands on the Nginx server 
+
+1- Allow access to the current user
+
+​		`		sudo chown -R ece-user /var/app/current/`
+
+2- Go to the directory
+
+​		`cd  /var/app/current`
+
+3- run the Laravel commands 
+
+`php artisan migrate`
+
+## Enable Rewrite mode to solve the `Permission denied` error 
+
+​		` sudo chmod -R 777 storage `
+
+​		` sudo chmod -R 777  bootstrap`
+
+​		`sudo chmod 777 storage/framework/cache`
+
+​		`sudo chmod 777 storage/log/laravel.log`
+
